@@ -1,36 +1,31 @@
+
 const express = require("express");
 const app = express();
 
 //load config from env file
-
 require("dotenv").config();
-
 const PORT = process.env.PORT || 4000;
 
-//Middleware to parse json request body
-
+//middleware to parse json request body
 app.use(express.json());
 
-//Import routes for todo API
-
+//import routes for TODO API
 const todoRoutes = require("./routes/todos");
 
-//Mount the todoes api routes
+//mount the todo API routes
+app.use("/api/v1", todoRoutes);
 
-app.use("api/v1", todoRoutes);
 
 //start server
-
 app.listen(PORT, () => {
-    console.log(`Your server is starte at ${PORT}`);
+    console.log(`Server started successfully at ${PORT}`);
 })
 
-// connection to the database 
-
+//connect to the database
 const dbConnect = require("./config/database");
 dbConnect();
 
-//defult routes 
-app.get("/", (req, res) => {
-    res.send(`<h1> This is HOMEPAGE </h1>`);
+//default Route
+app.get("/", (req,res) => {
+    res.send(`<h1> This is HOMEPAGE baby</h1>`);
 })

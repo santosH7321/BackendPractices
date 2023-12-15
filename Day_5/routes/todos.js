@@ -1,10 +1,10 @@
-const express = require('express');
+const express  = require("express");
 const router = express.Router();
 
-// import controller
+//import controller
 const {createTodo} = require("../controllers/createTodo");
 
-//define api routes
+//define APi routes
 router.post("/createTodo", createTodo);
 
 module.exports = router;
