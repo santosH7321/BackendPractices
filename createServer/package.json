@@ -1,0 +1,19 @@
+{
+  "name": "createserver",
+  "version": "1.0.0",
+  "description": "server create just for practice",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Santosh Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
