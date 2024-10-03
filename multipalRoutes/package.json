@@ -1,0 +1,19 @@
+{
+  "name": "multipalroutes",
+  "version": "1.0.0",
+  "description": "handling multipal routes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "Nodejs",
+    "javascript"
+  ],
+  "author": "Santosh Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
