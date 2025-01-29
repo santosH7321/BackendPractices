@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="import" href="./catalog.html">
+    <link rel="import" href="./about.html">
+    <link rel="import" href="./contact.html">
+    <link rel="import" href="./signup.html">
+    <link rel="import" href="./signin.html">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Book Sheling Website</title>
+</head>
+<body>
+    <!-- Navbar -->
+     <nav class="navbar">
+        <h1 class="logo">Book Shop</h1>
+        <div class="search-container">
+            <input type="text" placeholder="Search for books.." id="search-input">
+            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <button class="signin"><a href="signin">Signin</a></button>
+    </nav>
+
+    <!-- Home section -->
+     <section class="home-section">
+        <h1>Welcome to our Book Shop!</h1>
+        <p>Discover our latest releases and browse our vast collection of books.</p>
+        <a href="catalog.html" class="button">View Catalog</a>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h1>About Us</h1>
+        <p>Our book shop is a place where you can find the latest releases and best sellers. We have a vast collection of books from different genres. Our goal is to provide you with the best books at the best prices. We also offer a wide range of services such as book recommendations, book reviews, and more. Visit our shop today and discover the joy of reading!</p>
+    </section>
+
+    <!-- Catalog -->
+    <section class="catalog-section">
+        <h1>Our Catalog</h1>
+        <div class="books-container">
+            <!-- Books will be dynamically inserted here by JavaScript -->
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <footer class="footer">
+        <p>&copy; 2025 Book Haven. All Rights Reserved.</p>
+    </footer>
+
+    <script src="../javaScript/script.js"></script>
+</body>
+</html>
