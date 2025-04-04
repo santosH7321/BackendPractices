@@ -38,6 +38,7 @@ app.put('/api/v1/users/:id', (req, res) => {
     res.json({ message: "User updated successfully" });
 })
 
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 })
