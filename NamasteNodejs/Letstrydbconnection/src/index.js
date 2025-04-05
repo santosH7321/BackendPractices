@@ -8,15 +8,18 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 
 app.post("/api/v1/signup", async (req, res) => {
-    const userObj = new User({
-        firstName: "SKY",
-        lastName: "Ranjan",
-        email: "skys@gmail.com",
-    });
-    await userObj.save();
-    res.status(201).json({ message: "User created successfully" });
+    const userObj = new User(req.body);
+    try {
+      await userObj.save();
+      res.status(201).json({ message: "User created successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error creating user", error });
+    }
+    
 })
 
 
