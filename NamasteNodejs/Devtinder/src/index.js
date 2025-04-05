@@ -15,18 +15,15 @@ app.get("/api/v1/oneuser", async (req, res) => {
   const userEamil = req.body.email;
   try {
     const user = await User.find({ email: userEamil });
-    if(user.length === 0) {
+    if (user.length === 0) {
       return res.status(404).json({ message: "User not found" });
-    } 
-    else {
+    } else {
       res.status(200).send(user);
     }
-
   } catch (error) {
     res.status(404).json({ message: "User not found" });
   }
 });
-
 
 app.get("/api/v1/feed", async (req, res) => {
   try {
@@ -46,6 +43,28 @@ app.post("/api/v1/signup", async (req, res) => {
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.delete("/api/v1/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    res.status(200).send("User deleted successfully", user);
+  } catch (error) {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
+// Update user by id
+app.patch("/api/v1/user", async (req, res) => {
+  const userId = req.body.userId;
+  const data = req.body;
+  try {
+    await User.findByIdAndUpdate({ _id: userId }, data);
+    res.status(200).json({ message: "User updated successfully" });
+  } catch (error) {
+    res.status(404).json({ message: "User not found" });
   }
 });
 
