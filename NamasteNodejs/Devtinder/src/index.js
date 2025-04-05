@@ -10,6 +10,35 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Find one user by email
+app.get("/api/v1/oneuser", async (req, res) => {
+  const userEamil = req.body.email;
+  try {
+    const user = await User.find({ email: userEamil });
+    if(user.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    } 
+    else {
+      res.status(200).send(user);
+    }
+
+  } catch (error) {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
+
+app.get("/api/v1/feed", async (req, res) => {
+  try {
+    const users = await User.find({});
+    if (users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    }
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(404).json({ message: "User not found" });
+  }
+});
 app.post("/api/v1/signup", async (req, res) => {
   const user = new User(req.body);
   try {
@@ -19,8 +48,6 @@ app.post("/api/v1/signup", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
-
 
 connectDB()
   .then(() => {
