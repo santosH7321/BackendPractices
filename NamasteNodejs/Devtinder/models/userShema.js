@@ -4,10 +4,12 @@ const userSchema = new mongoose.Schema({
     firstName:{
         type: String,
         required: true,
+        minlength: 3,
+        maxlength: 50,
+        trim: true,
     },
     lastName:{
         type: String,
-        required: true,
     },
     email: {
         type: String,
@@ -20,24 +22,25 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6,
     },
+    gender: {
+        type: String,
+        validate(value) {
+            if (!["male", "female", "others"].includes(value)) {
+                throw new Error("Invalid gender. Must be male, female, or others.");
+            }
+        }
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],
         default: 'user'
     },
-    isActive: {
-        type: Boolean,
-        default: true
+    photoUrl: {
+        type: String,
+        default: "https://example.com/default-avatar.png",
     },
-    createdBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    updatedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
-})
+
+}, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 export default User;

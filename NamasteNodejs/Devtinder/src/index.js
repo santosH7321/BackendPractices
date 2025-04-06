@@ -57,10 +57,30 @@ app.delete("/api/v1/user", async (req, res) => {
 });
 
 // Update user by id
-app.patch("/api/v1/user", async (req, res) => {
-  const userId = req.body.userId;
+app.patch("/api/v1/user/:userId", async (req, res) => {
+  const userId = req.params?.userId;
   const data = req.body;
+
   try {
+    const ALL_UPDATE_FIELDS = [
+      "photoUrl",
+      "about",
+      "gender",
+      "age",
+      "skills",
+    ];
+    const isUpadeAllowed = Object.keys(data).every((k) =>
+      ALL_UPDATE_FIELDS.includes(k)
+    );
+    if (!isUpadeAllowed) {
+      return res.status(400).json({ message: "Invalid update fields" });
+    }
+
+    if(data?.skills.length > 10){
+      return res.status(400).json({ message: "Skills can't exceed 10" });
+    }
+
+
     await User.findByIdAndUpdate({ _id: userId }, data);
     res.status(200).json({ message: "User updated successfully" });
   } catch (error) {
