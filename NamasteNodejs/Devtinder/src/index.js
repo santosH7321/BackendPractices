@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import User from "../models/userShema.js";
 import { connectDB } from "../Database/database.js";
+import validateSignupData from "../utils/validation.js";
+import bcrypt from "bcrypt"; // Import bcrypt for password hashing
 
 dotenv.config();
 
@@ -36,9 +38,24 @@ app.get("/api/v1/feed", async (req, res) => {
     res.status(404).json({ message: "User not found" });
   }
 });
+
 app.post("/api/v1/signup", async (req, res) => {
-  const user = new User(req.body);
   try {
+    // Validate the  data
+    validateSignupData(req);
+    // Encrypt the password
+    const { firstName, lastName, email, password } = req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // creating new instance
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password: passwordHash,
+    });
+
+    // save into DB
     await user.save();
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
@@ -46,6 +63,22 @@ app.post("/api/v1/signup", async (req, res) => {
   }
 });
 
+app.post("/api/v1/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "Email id not persent" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Password is not correct!" });
+    }
+    res.status(200).json({ message: "Login successful", user });
+  } catch (error) {
+    res.status(500).send("User not found" + error);
+  }
+});
 app.delete("/api/v1/user", async (req, res) => {
   const userId = req.body.userId;
   try {
@@ -62,13 +95,7 @@ app.patch("/api/v1/user/:userId", async (req, res) => {
   const data = req.body;
 
   try {
-    const ALL_UPDATE_FIELDS = [
-      "photoUrl",
-      "about",
-      "gender",
-      "age",
-      "skills",
-    ];
+    const ALL_UPDATE_FIELDS = ["photoUrl", "about", "gender", "age", "skills"];
     const isUpadeAllowed = Object.keys(data).every((k) =>
       ALL_UPDATE_FIELDS.includes(k)
     );
@@ -76,10 +103,9 @@ app.patch("/api/v1/user/:userId", async (req, res) => {
       return res.status(400).json({ message: "Invalid update fields" });
     }
 
-    if(data?.skills.length > 10){
+    if (data?.skills.length > 10) {
       return res.status(400).json({ message: "Skills can't exceed 10" });
     }
-
 
     await User.findByIdAndUpdate({ _id: userId }, data);
     res.status(200).json({ message: "User updated successfully" });
