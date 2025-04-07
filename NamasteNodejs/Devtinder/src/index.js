@@ -78,7 +78,6 @@ app.post("/api/v1/login", async (req, res) => {
     }
     // Create jwt token
     const token = await jwt.sign({ _id: user._id }, "santosH@7321");
-    console.log(token);
 
     // cookie parser
     res.cookie("token", token);
@@ -89,16 +88,25 @@ app.post("/api/v1/login", async (req, res) => {
   }
 });
 app.get("/api/v1/profile", async (req, res) => {
-  const cookies = req.cookies;
-  const { token } = cookies;
-  // validate my token
-  const isTokenValid = jwt.verify(token, "santosH@7321");
-  const { _id } = isTokenValid;
+  try {
+    const cookies = req.cookies;
+    const { token } = cookies;
+    if(!token) {
+      throw new Error("Invalid token");
+    }
+    // validate my token
+    const isTokenValid = await jwt.verify(token, "santosH@7321");
+    const { _id } = isTokenValid;
 
-  console.log("Logged in user is: " + _id);
 
-  const user = new User.findById(_id);
-  res.send(user);
+    const user = await User.findById(_id);
+    if(!user){
+      throw new Error("User not found");
+    }
+    res.send(user);
+  } catch (err) {
+    res.status(500).send("Server Error");
+  }
 });
 app.delete("/api/v1/user", async (req, res) => {
   const userId = req.body.userId;
