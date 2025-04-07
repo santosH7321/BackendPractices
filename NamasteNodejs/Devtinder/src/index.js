@@ -6,6 +6,7 @@ import validateSignupData from "../utils/validation.js";
 import bcrypt from "bcrypt"; // Import bcrypt for password hashing
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
+import UserAuth from "../middleware/auth.js";
 
 dotenv.config();
 
@@ -87,20 +88,19 @@ app.post("/api/v1/login", async (req, res) => {
     res.status(500).send("User not found" + error);
   }
 });
-app.get("/api/v1/profile", async (req, res) => {
+app.get("/api/v1/profile", UserAuth, async (req, res) => {
   try {
     const cookies = req.cookies;
     const { token } = cookies;
-    if(!token) {
+    if (!token) {
       throw new Error("Invalid token");
     }
     // validate my token
-    const isTokenValid = await jwt.verify(token, "santosH@7321");
+    const isTokenValid = await jwt.verify(token, process.env.JWT_SECREAT);
     const { _id } = isTokenValid;
 
-
     const user = await User.findById(_id);
-    if(!user){
+    if (!user) {
       throw new Error("User not found");
     }
     res.send(user);
