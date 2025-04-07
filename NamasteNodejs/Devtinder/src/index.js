@@ -4,6 +4,8 @@ import User from "../models/userShema.js";
 import { connectDB } from "../Database/database.js";
 import validateSignupData from "../utils/validation.js";
 import bcrypt from "bcrypt"; // Import bcrypt for password hashing
+import cookieParser from "cookie-parser";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
@@ -11,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
+app.use(cookieParser());
 // Find one user by email
 app.get("/api/v1/oneuser", async (req, res) => {
   const userEamil = req.body.email;
@@ -68,16 +70,35 @@ app.post("/api/v1/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "Email id not persent" });
+      return res.status(404).json({ message: "Invalid credentials" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Password is not correct!" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
+    // Create jwt token
+    const token = await jwt.sign({ _id: user._id }, "santosH@7321");
+    console.log(token);
+
+    // cookie parser
+    res.cookie("token", token);
+
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     res.status(500).send("User not found" + error);
   }
+});
+app.get("/api/v1/profile", async (req, res) => {
+  const cookies = req.cookies;
+  const { token } = cookies;
+  // validate my token
+  const isTokenValid = jwt.verify(token, "santosH@7321");
+  const { _id } = isTokenValid;
+
+  console.log("Logged in user is: " + _id);
+
+  const user = new User.findById(_id);
+  res.send(user);
 });
 app.delete("/api/v1/user", async (req, res) => {
   const userId = req.body.userId;

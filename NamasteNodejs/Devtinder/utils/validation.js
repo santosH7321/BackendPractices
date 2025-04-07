@@ -5,7 +5,7 @@ const validateSignupData = (req) => {
     if(!firstName  && !lastName) {
         throw new Error("Name is not valid");
     }
-    else if(firstName.length < 3 || firstName.length > 50) {
+    else if(firstName.length < 4 || firstName.length > 50) {
         throw new Error("Name length should be between 3 and 50");
     }
 
