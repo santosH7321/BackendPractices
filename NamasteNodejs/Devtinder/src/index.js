@@ -47,15 +47,14 @@ app.post("/api/v1/login", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "Invalid credentials" });
     }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+    const isPasswordValid = await user.validatePassword(password);
+    if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
     // Create jwt token
-    const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECREAT);
-
+    const token = await user.getJWT();
     // cookie parser
-    res.cookie("token", token);
+    res.cookie("token", token, { expires: new Date(Date.now() + 8 * 3600000) });
 
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
@@ -74,7 +73,7 @@ app.get("/api/v1/profile", UserAuth, async (req, res) => {
 // send connection request
 app.post("/api/v1/sendConnectionRequest", UserAuth, async (req, res) => {
   const user = req.user;
-  res.send(user.firstName +" " + "Sending a connection request");
+  res.send(user.firstName + " " + "Sending a connection request");
 });
 
 // Find one user by email
