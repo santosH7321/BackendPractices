@@ -42,6 +42,10 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    about: {
+      type: String,
+      maxlength: 500,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -53,6 +57,14 @@ const userSchema = new mongoose.Schema(
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("Invalid photo URL format.");
+        }
+      },
+    },
+    skills: {
+      type: [String],
+      validate(value) {
+        if (!Array.isArray(value)) {
+          throw new Error("Skills must be an array.");
         }
       },
     },

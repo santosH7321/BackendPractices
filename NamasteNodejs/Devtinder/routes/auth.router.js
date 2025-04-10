@@ -1,7 +1,8 @@
 import express from "express";
-import validateSignupData from "../utils/validation.js";
+import {validateSignupData} from "../utils/validation.js";
 import User from "../models/userShema.js";
 import bcrypt from "bcrypt"; 
+import cookieParser from "cookie-parser";
 
 const authRouter = express.Router();
 
@@ -51,6 +52,15 @@ authRouter.post("/api/v1/login", async (req, res) => {
   }
 });
 
+authRouter.post("/api/v1/logout", async (req, res) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    })
+    res.status(200).json({ message: "Logout successful" });
+});
 
 
 
