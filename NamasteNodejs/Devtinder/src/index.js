@@ -18,12 +18,14 @@ app.use(cookieParser());
 import authRouter from "../routes/auth.router.js";
 import profileRouter from "../routes/profile.js";
 import requestRouter from "../routes/request.js";
+import userRouter from "../routes/user.js";
 
 
 
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
 
 
 connectDB()
