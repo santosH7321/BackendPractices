@@ -15,7 +15,7 @@ const connectionRequestSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: {
-        values: ["ignored","interested", "accepted", "rejected"],
+        values: ["ignored", "interested", "accepted", "rejected"],
         message: `{VALUE} is not a valid status`,
       },
     },
@@ -23,7 +23,14 @@ const connectionRequestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
+connectionRequestSchema.pre("save", function (next) {
+  const connectionRequest = this;
+  // check if the fromUserId and toUserId are the same
+  if (connectionRequest.fromUserId.equals(connectionRequest.toUserId)) {
+    throw new Error("You cannot send a connection request to yourself");
+  }
+  next();
+});
 
 // model always start with capital letter
 const ConnectionRequestModel = mongoose.model(
