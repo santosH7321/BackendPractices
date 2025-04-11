@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/userShema.js";
 import dotenv from "dotenv";
 
-
 dotenv.config();
 
 const UserAuth = async (req, res, next) => {
