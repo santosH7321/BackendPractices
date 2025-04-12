@@ -3,16 +3,23 @@ import UserAuth from "../middleware/auth.js";
 import ConnectionRequestModel from "../models/connectionRequest.js";
 const userRouter = express.Router();
 
-
-const USER_SAFE_DATA = "fromUserId firstName lastName photoUrl skills gender about";
+const USER_SAFE_DATA =
+  "fromUserId firstName lastName photoUrl skills gender about";
 // Get all pending connection requests for the logged-in user
 userRouter.get("/user/requests/received", UserAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
     const connectionRequest = await ConnectionRequestModel.find({
-        toUserId: loggedInUser._id,
-        status: "interested",
-    }).populate("fromUserId", ["firstName", "lastName", "photoUrl", "skills", "gender", "about"]);
+      toUserId: loggedInUser._id,
+      status: "interested",
+    }).populate("fromUserId", [
+      "firstName",
+      "lastName",
+      "photoUrl",
+      "skills",
+      "gender",
+      "about",
+    ]);
     res.status(200).json({
       status: true,
       message: "Connection requests fetched successfully",
@@ -23,7 +30,7 @@ userRouter.get("/user/requests/received", UserAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/user/connections",UserAuth, async (req, res) => {
+userRouter.get("/user/connections", UserAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
     const connectionRequest = await ConnectionRequestModel.find({
@@ -31,9 +38,16 @@ userRouter.get("/user/connections",UserAuth, async (req, res) => {
         { toUserId: loggedInUser._id, status: "accepted" },
         { fromUserId: loggedInUser._id, status: "accepted" },
       ],
-    }).populate("fromUserId", USER_SAFE_DATA);
+    })
+      .populate("fromUserId", USER_SAFE_DATA)
+      .populate("toUserId", USER_SAFE_DATA);
 
-    const data = connectionRequest.map((row) => row.fromUserId); 
+    const data = connectionRequest.map((row) => {
+      if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
+        return row.toUserId;
+      }
+      return row.fromUserId;
+    });
 
     res.status(200).json({
       status: true,
