@@ -78,7 +78,7 @@ const Signup = () => {
                 <div>
                   <button
                     type="button"
-                    className="inline-flex w-full items-center justify-center rounded-md bg-white px-3.5 py-2.5 font-semibold leading-7 text-black hover:bg-gray-200"
+                    className="inline-flex w-full items-center justify-center rounded-md bg-white px-3.5 py-2.5 font-semibold leading-7 text-black hover:bg-gray-200 cursor-pointer"
                   >
                     Create Account <HiArrowRight className="ml-2" size={16} />
                   </button>

@@ -31,6 +31,9 @@ const Navbar = () => {
               <Link to={"/signup"}>Signup</Link>
             </li>
             <li>
+              <Link to={"/login"}>Login</Link>
+            </li>
+            <li>
               <Link to={"/profile"} className="justify-between">
                 Profile
                 <span className="badge">New</span>

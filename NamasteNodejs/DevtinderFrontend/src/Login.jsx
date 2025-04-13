@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      const result = await axios.post("http://localhost:3000/api/v1/login", {
+        email,
+        password,
+      }, {withCredentials: true});
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <section className="bg-black w-full min-h-screen">
@@ -33,7 +48,9 @@ const Login = () => {
                     <input
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                       type="email"
+                      value={email}
                       placeholder="Email"
+                      onChange={(e) => setEmail(e.target.value)}
                     ></input>
                   </div>
                 </div>
@@ -52,20 +69,22 @@ const Login = () => {
                     >
                       Forgot password?
                     </Link>
-                    
                   </div>
                   <div className="mt-2">
                     <input
                       className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                       type="password"
+                      value={password}
                       placeholder="Password"
+                      onChange={(e) => setPassword(e.target.value)}
                     ></input>
                   </div>
                 </div>
                 <div>
                   <button
                     type="button"
-                    className="inline-flex w-full items-center justify-center rounded-md bg-white px-3.5 py-2.5 font-semibold leading-7 text-black hover:bg-gray-200"
+                    className="inline-flex w-full items-center justify-center rounded-md bg-white px-3.5 py-2.5 font-semibold leading-7 text-black hover:bg-gray-200 cursor-pointer"
+                    onClick={handleLogin}
                   >
                     Login <HiArrowRight className="ml-2" size={16} />
                   </button>
