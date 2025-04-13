@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Profile = () => {
   return (
-    <div>Profile</div>
-  )
-}
+    <div className="flex justify-center items-center min-h-screen font-bold text-5xl">
+      Profile
+    </div>
+  );
+};
 
-export default Profile
+export default Profile;
