@@ -22,3 +22,54 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Ignore specific folders
+Bagshop/
+Docker/
+NodejsAshokIT/
+database/
+devTinder/
+signUp/
+
+# Or specific files (if needed)
+Practices/database/database.js
+
+../../Bagshop/.gitignore
+        ../../Bagshop/app.js
+        ../../Bagshop/config/.gitkeep
+        ../../Bagshop/controllers/.gitkeep
+        ../../Bagshop/models/.gitkeep
+        ../../Bagshop/package-lock.json
+        ../../Bagshop/package.json
+        ../../Bagshop/public/images/.gitkeep
+        ../../Bagshop/public/javascript/.gitkeep
+        ../../Bagshop/public/stylesheet/.gitkeep
+        ../../Bagshop/routes/.gitkeep
+        ../../Bagshop/utils/.gitkeep
+        ../../Bagshop/views/.gitkeep
+        ../Devtinder/package.json
+        ../Devtinder/src/index.js
+        ../Practices/database/database.js
+        ../../NodejsAshokIT/accountSystem/server.ts
+        ../../NodejsAshokIT/readQuer.js
+        ../../NodejsAshokIT/server.js
+        ../../NodejsAshokIT/readQuer.js
+        ../../NodejsAshokIT/server.js
+        ../../NodejsAshokIT/readQuer.js
+         ../../NodejsAshokIT/readQuer.js
+         ../../NodejsAshokIT/server.js
+         ../../Docker/
+        ../../NodejsAshokIT/Day01/
+        ../../database/
+        ../../devTinder/
+        ../../signUp/
+         ../../NodejsAshokIT/readQuer.js
+         ../../NodejsAshokIT/server.js
+
+         ../../Docker/
+        ../../NodejsAshokIT/Day01/
+        ../../database/
+        ../../devTinder/
+        ../../NodejsAshokIT/readQuer.js
+        ../../NodejsAshokIT/server.js
