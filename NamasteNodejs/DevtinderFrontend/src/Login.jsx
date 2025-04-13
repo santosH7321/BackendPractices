@@ -2,17 +2,21 @@ import { Link } from "react-router-dom";
 import { HiArrowRight } from "react-icons/hi";
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "./utils/userSlice";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const dispatch = useDispatch();
   const handleLogin = async () => {
     try {
       const result = await axios.post("http://localhost:3000/api/v1/login", {
         email,
         password,
       }, {withCredentials: true});
+      dispatch(addUser(result.data));
     } catch (error) {
       console.log(error);
     }
