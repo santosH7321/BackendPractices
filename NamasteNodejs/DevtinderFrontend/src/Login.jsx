@@ -16,7 +16,7 @@ const Login = () => {
         email,
         password,
       }, {withCredentials: true});
-      dispatch(addUser(result.data));
+      dispatch(addUser(result.data.user));
     } catch (error) {
       console.log(error);
     }
