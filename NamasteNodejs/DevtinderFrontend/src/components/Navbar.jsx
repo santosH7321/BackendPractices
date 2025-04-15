@@ -11,16 +11,9 @@ const Navbar = () => {
           DevTinder
         </a>
       </div>
-      <div className="flex gap-5 list-none mx-10 font-semibold text-lg">
-        <li>
-          <Link to={"/signup"}>Signup</Link>
-        </li>
-        <li>
-          <Link to={"/login"}>Login</Link>
-        </li>
-      </div>
+
       <div className="mx-10 ">
-        {user && (
+        {user ? (
           <div className="dropdown dropdown-end flex">
             <p className="mr-5 flex items-center">Welcome, {user?.firstName}</p>
 
@@ -51,6 +44,15 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+        ): (
+          <div className="flex gap-5 list-none mx-10 font-semibold text-lg">
+        <li>
+          <Link to={"/signup"}>Signup</Link>
+        </li>
+        <li>
+          <Link to={"/login"}>Login</Link>
+        </li>
+      </div>
         )}
       </div>
     </div>
