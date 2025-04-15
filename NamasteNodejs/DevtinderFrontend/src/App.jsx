@@ -6,6 +6,7 @@ import Signup from "./components/Signup";
 import HomePage from "./components/HomePage";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import Feed from "./components/Feed";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<HomePage />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/feed" element={<Feed />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
           </Route>
         </Routes>
